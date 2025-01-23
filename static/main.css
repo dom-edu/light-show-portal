@@ -5,6 +5,8 @@ body {
         sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background: url(https://nyccharterschools.org/wp-content/uploads/2020/10/hcz.jpg) no-repeat;
+    background-size: cover;
 }
 
 code {
@@ -42,4 +44,8 @@ code {
 
 .small {
     font-size: 0.85rem;
+}
+
+h1 {
+    color: white;
 }
