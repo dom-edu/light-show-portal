@@ -5,7 +5,7 @@ Portal written in python and flask to control lights / LED screens etc for the l
 Stack (Technologies):
 - Flask
 
-## Installing the portal 
+## Installing Python Libraries for the portal
 ```
 pip install -r requirements.txt
 ```
