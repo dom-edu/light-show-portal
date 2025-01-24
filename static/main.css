@@ -8,6 +8,10 @@ body {
     background: url(https://nyccharterschools.org/wp-content/uploads/2020/10/hcz.jpg) no-repeat;
     background-size: cover;
 }
+ 
+h1 {
+    color: #ffffff;
+ }
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
