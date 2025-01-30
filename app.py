@@ -6,6 +6,7 @@ app = Flask(__name__)
 def home():
     return render_template("index.html", title="Home")
 
+# Look into dynamic routing.
 @app.route("/arcade")
 def arcade():
     return render_template("arcade.html", title="Arcade")
