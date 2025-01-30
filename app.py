@@ -3,5 +3,10 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 @app.route("/")
-def hello_world():
-    return render_template("index.html", title="Hello")
+def home():
+    return render_template("index.html", title="Home")
+
+# Look into dynamic routing.
+@app.route("/arcade")
+def arcade():
+    return render_template("arcade.html", title="Arcade")
