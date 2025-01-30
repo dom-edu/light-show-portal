@@ -14,6 +14,14 @@ code {
         monospace;
 }
 
+/* Navigation Sectiom */
+.navbar-nav .nav-item .nav-link:hover {
+    color: black;
+    background-color: #E0A800;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+
 /* TODO: Find a better production level solution(negative vals are bad practice)*/
 .logo {
     margin-left: -70px
