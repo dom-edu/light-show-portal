@@ -5,26 +5,20 @@ body {
         sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: url(images/harlem-children-s-zone-promise-academy-ii-middle-school-charter-school-new-york-ny-primaryphoto.jpeg) no-repeat;
-    background-size: cover;
 }
  
-h1 {
-    color: #ffffff;
- }
+
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
         monospace;
 }
 
-.App {
-    text-align: center;
-}
+
 
 .App-logo {
-    height: 40vmin;
-    pointer-events: none;
+    width: 150px; /* Match the size of the second logo */
+    height: auto; /* Maintain aspect ratio */
 }
 
 .App-header {
