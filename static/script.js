@@ -10,7 +10,7 @@ const games = [
         gameImage: "static/images/Circle Illusion_placeholder_game.png"
     },
     {
-        title: "placeholder game 2",
+        title: "Year of the Snake",
         url: "https://scratch.mit.edu/projects/1118851459/fullscreen/",
         gameImage: "static/images/snake_placeholder.png"   
     }

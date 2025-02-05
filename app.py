@@ -10,3 +10,4 @@ def home():
 @app.route("/arcade")
 def arcade():
     return render_template("arcade.html", title="Arcade")
+
