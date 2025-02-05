@@ -42,6 +42,12 @@ header center {
     border-radius: 10px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 }
+
+/* Game cards */
+.card:hover {
+    transform: translateY(-10px);
+}
+
 .App-link {
     color: #61dafb;
 }
