@@ -1,18 +1,18 @@
 const games = [
     {
-        title: "dragon game",
-        url: "https://scratch.mit.edu/projects/1116795309/fullscreen/",
-        gameImage: "static/images/placeholder_game.png"
+        title: "Memory Game v1.1",
+        url: "https://scratch.mit.edu/projects/1113114501/fullscreen",
+        gameImage: "static/images/memory_placeholder.png"
     }, 
     {
-        title: "placeholder game",
+        title: "Red Circle Illusion",
         url: "https://scratch.mit.edu/projects/1116795309/fullscreen/",
-        gameImage: "static/images/placeholder_game.png"
+        gameImage: "static/images/Circle Illusion_placeholder_game.png"
     },
     {
         title: "placeholder game 2",
-        url: "https://scratch.mit.edu/projects/1116795309/fullscreen/",
-        gameImage: "static/images/placeholder_game.png"   
+        url: "https://scratch.mit.edu/projects/1118851459/fullscreen/",
+        gameImage: "static/images/snake_placeholder.png"   
     }
 ]
 
