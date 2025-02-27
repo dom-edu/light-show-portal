@@ -67,9 +67,12 @@ h1 {
 
 .footer ul{
     list-style-type: none;
-    margin-left: -20px;
   }
-  
+  .footer .row {
+    display: flex;
+    align-items: start;
+}
+
 .footer i {
     padding: 15px 10px;
 }
@@ -82,7 +85,7 @@ h1 {
 #socials li {
     margin-bottom: 25px;
 }
-  
+
 .social-link {
     text-decoration: none;
 }
