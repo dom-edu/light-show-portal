@@ -26,6 +26,7 @@ code {
 .logo {
     margin-left: -70px
 }
+
 /* Header section on the home page */
 header {
   background-image: url('./images/hcz-background.jpeg');
@@ -62,4 +63,37 @@ header center {
 
 h1 {
     color: white;
+}
+
+.footer ul{
+    list-style-type: none;
+  }
+  .footer .row {
+    display: flex;
+    align-items: start;
+}
+
+.footer i {
+    padding: 15px 10px;
+}
+  
+.footer .btn {
+    background-color: green;
+    color: #fff;
+}
+
+#socials li {
+    margin-bottom: 25px;
+}
+
+.social-link {
+    text-decoration: none;
+}
+
+.social-link:hover {
+    text-decoration: underline; /* Optional: Adds underline on hover for better UX */
+}
+
+.social-link-text {
+    display: inline;
 }
