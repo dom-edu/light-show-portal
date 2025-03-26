@@ -11,3 +11,8 @@ def home():
 def arcade():
     return render_template("arcade.html", title="Arcade")
 
+# todo: Look into dynamic routing.
+@app.route("/team")
+def team():
+    return render_template("team.html", title="Team")
+
