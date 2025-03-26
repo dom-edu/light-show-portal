@@ -1,62 +1,79 @@
-const games = [
+const teamInfo = [
     {
-        title: "Memory Game v1.1",
-        url: "https://scratch.mit.edu/projects/1113114501/fullscreen",
-        gameImage: "static/images/memory_placeholder.png"
-    }, 
-    {
-        title: "Red Circle Illusion",
-        url: "https://scratch.mit.edu/projects/1116795309/fullscreen/",
-        gameImage: "static/images/Circle Illusion_placeholder_game.png"
+        name: "Luigi",
+        role: "Electronics",
+        grade: 10,
+        hobbies: ["Soccer", "Playing the trumpet", "Video Games"],
+        image: "static/images/pixel-art/art1.png"
     },
     {
-        title: "Year of the Snake",
-        url: "https://scratch.mit.edu/projects/1118851459/fullscreen/",
-        gameImage: "static/images/snake_placeholder.png"   
+        name: "John Cena",
+        role: "3D modeling",
+        grade: 11,
+        hobbies: ["Soccer", "Playing the trumpet", "Video Games"],
+        image: "static/images/pixel-art/art2.png"
+    },
+    {
+        name: "Bianca Belair",
+        role: "Coder",
+        grade: 12,
+        hobbies: ["Soccer", "Playing the trumpet", "Video Games"],
+        image: "static/images/pixel-art/art3.png"
+    },
+    {
+        name: "Mario",
+        role: "Electronics",
+        grade: 10,
+        hobbies: ["Soccer", "Playing the trumpet", "Video Games"],
+        image: "static/images/pixel-art/art4.png"
     }
 ]
 
-const container = document.getElementById("games-container")
+// Render each member in the list
+const container = document.getElementById("team-container");
 
-function displayGames() {
-    games.forEach(game => {
+function displayTeam() {
+    teamInfo.forEach(member => {
         const col = document.createElement("div");
-        col.classList.add("col-md-4", "d-flex", "justify-content-center");
-
+        col.classList.add("col-12", "col-sm-6", "col-md-3", "text-center", "mb-4");
+        
+        // Card container
         const card = document.createElement("div");
-        card.classList.add("card", "text-white", "bg-dark", "border-0");
-        card.style.width = "20rem";
-
+        card.classList.add("team-member-card", "p-3");
+        
+        // Image container div
+        const imgContainer = document.createElement("div");
+        imgContainer.classList.add("img-container"); // This applies your colored border
+        
         const img = document.createElement("img");
-        img.classList.add("card-img-top");
-        img.src = game.gameImage || "https://via.placeholder.com/300x200";
-        img.alt = game.title;
-
-        const cardBody = document.createElement("div");
-        cardBody.classList.add("card-body", "text-center");
-
-        const title = document.createElement("h5");
-        title.classList.add("card-title", "fw-bold", "text-primary");
-        title.textContent = game.title;
-
-        const description = document.createElement("p");
-        description.classList.add("card-text");
-        description.textContent = "Experience the excitement of " + game.title;
-
-        const playButton = document.createElement("a");
-        playButton.classList.add("btn", "btn-primary", "text-white");
-        playButton.href = game.url;
-        playButton.target = "_blank";
-        playButton.textContent = "Play Now";
-
-        cardBody.appendChild(title);
-        cardBody.appendChild(description);
-        cardBody.appendChild(playButton);
-        card.appendChild(img);
-        card.appendChild(cardBody);
+        img.src = member.image;
+        img.classList.add("img-fluid", "w-100", "h-100"); // Fill the container
+        img.alt = `${member.name}'s photo`;
+        img.style.objectFit = "cover"; // Ensure proper image scaling
+        
+        // Append image to its container
+        imgContainer.appendChild(img);
+        
+        const name = document.createElement("h3");
+        name.textContent = member.name;
+        name.classList.add("mt-3");
+        
+        const role = document.createElement("h4");
+        role.classList.add("text-muted", "mb-3");
+        role.textContent = member.role;
+        
+        const bio = document.createElement("p");
+        bio.textContent = `Grade: ${member.grade} | Hobbies: ${member.hobbies.join(", ")}`;
+        bio.classList.add("mb-0");
+        
+        // Build the card structure
+        card.appendChild(imgContainer);
+        card.appendChild(name);
+        card.appendChild(role);
+        card.appendChild(bio);
+        
         col.appendChild(card);
         container.appendChild(col);
     });
 }
-
-displayGames()
+displayTeam();
