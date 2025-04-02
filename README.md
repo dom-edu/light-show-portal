@@ -1,9 +1,5 @@
 # Control Portal
 
-## Raspberry PI Pico 
-https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico/1 
-(To control the lights)
-
 Portal written in python and flask to control lights / LED screens etc for the light show 
 
 Stack (Technologies):
