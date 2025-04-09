@@ -92,6 +92,6 @@ function modes(){
         modeButton.html("light mode")
     }
 }
-// Add an event listener
+// Add an event listener for clicks
 dButton.addEventListener("click", modes);
 
