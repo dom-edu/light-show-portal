@@ -56,6 +56,8 @@ function displayGames() {
         card.appendChild(cardBody);
         col.appendChild(card);
         container.appendChild(col);
+
+        mode = -1
     });
 }
 
