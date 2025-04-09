@@ -31,7 +31,7 @@ const teamInfo = [
 
 // Render each member in the list
 const container = document.getElementById("team-container");
-
+const dButton = document.getElementById("d-button")
 function displayTeam() {
     teamInfo.forEach(member => {
         const col = document.createElement("div");
@@ -74,6 +74,24 @@ function displayTeam() {
         
         col.appendChild(card);
         container.appendChild(col);
+
+       
     });
 }
 displayTeam();
+
+
+// Dark mode goes below
+function modes(){
+     console.log("dark mode button was clicked")
+    let mode = -1
+    mode = -1*mode
+
+    if(mode == 1){
+        background("black")
+        modeButton.html("light mode")
+    }
+}
+// Add an event listener for clicks
+dButton.addEventListener("click", modes);
+
