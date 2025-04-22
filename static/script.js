@@ -54,7 +54,36 @@ const teamInfo = [
         grade: 10,
         hobbies: ["Soccer", "Playing the trumpet", "Video Games"],
         image: "static/images/pixel-art/art4.png"
+    },
+    {
+        name: "Luigi",
+        role: "Electronics",
+        grade: 10,
+        hobbies: ["Soccer", "Playing the trumpet", "Video Games"],
+        image: "static/images/pixel-art/art1.png"
+    },
+    {
+        name: "John Cena",
+        role: "3D modeling",
+        grade: 11,
+        hobbies: ["Soccer", "Playing the trumpet", "Video Games"],
+        image: "static/images/pixel-art/art2.png"
+    },
+    {
+        name: "Bianca Belair",
+        role: "Coder",
+        grade: 12,
+        hobbies: ["Soccer", "Playing the trumpet", "Video Games"],
+        image: "static/images/pixel-art/art3.png"
+    },
+    {
+        name: "Mario",
+        role: "Electronics",
+        grade: 10,
+        hobbies: ["Soccer", "Playing the trumpet", "Video Games"],
+        image: "static/images/pixel-art/art4.png"
     }
+    
 ]
 
 // Render each member in the list
