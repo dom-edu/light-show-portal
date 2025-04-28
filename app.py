@@ -14,3 +14,6 @@ def arcade():
 def team():
     return render_template("team.html", title="Team")
 
+@app.route("/light_show")
+def light_show():
+    return render_template("light_show.html", title="Light_Show")
