@@ -1,6 +1,13 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify, request
 
 app = Flask(__name__)
+
+state = {
+    "cube_size": 4,          
+    "sphere_radius": 3,
+    "active_pattern": None,  # "Heart", "Cube", etc.
+    "hex_data": ""           
+}
 
 @app.route("/")
 def home():
@@ -16,4 +23,17 @@ def team():
 
 @app.route("/light_show")
 def light_show():
-    return render_template("light_show.html", title="Light_Show")
+    return render_template(
+        "light_show.html", 
+        title="Light_Show", 
+        state=state  
+    )
+
+@app.route("/light_show/update", methods=["POST"])
+def handle_updates():
+    """The ONLY endpoint needed for updates"""
+    updates = request.get_json()
+    state.update(updates)
+    
+    # Return FULL updated state to maintain consistency
+    return jsonify(state)
