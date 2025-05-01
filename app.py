@@ -6,11 +6,9 @@ app = Flask(__name__)
 def home():
     return render_template("index.html", title="Home")
 
-@app.route("/arcade")
-def arcade():
-    return render_template("arcade.html", title="Arcade")
+@app.route("/hex-current")
+def hex():
+    # TODO: get the value from React
+    
 
-@app.route("/team")
-def team():
-    return render_template("team.html", title="Team")
 
