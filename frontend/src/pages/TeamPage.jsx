@@ -1,44 +1,43 @@
-import React from 'react';
 import './TeamPage.css';
 
 const teamMembers = [
-  // Row 1
-  { id: 1, name: "John Doe", role: "Hardware Engineer", description: "Designed circuit boards and sensor arrays.", image: "" },
-  { id: 2, name: "Jane Smith", role: "Software Developer", description: "Built the React frontend and WebSocket integration.", image: "" },
-  { id: 3, name: "Alex Johnson", role: "Project Manager", description: "Coordinated sprints and hardware procurement.", image: "" },
-  // Row 2
-  { id: 4, name: "Maria Garcia", role: "UI/UX Designer", description: "Created interface prototypes and user flows.", image: "" },
-  { id: 5, name: "David Kim", role: "Backend Engineer", description: "Developed the Flask API and database architecture.", image: "" },
-  { id: 6, name: "Sarah Chen", role: "Testing Engineer", description: "Implemented unit and integration tests.", image: "" },
-  // Row 3
-  { id: 7, name: "Michael Brown", role: "Documentation", description: "Prepared technical manuals and tutorials.", image: "" },
-  { id: 8, name: "Emily Wilson", role: "Hardware Technician", description: "Assembled and calibrated devices.", image: "" },
-  { id: 9, name: "Daniel Lee", role: "DevOps", description: "Configured deployment pipelines.", image: "" }
+  { id: 1, name: "Justin Cadiz", grade: 12, role: "Team Lead", studentId: "IND-272667" },
+  { id: 2, name: "Moussa Cisse", grade: 11, role: "Hardware Specialist" },
+  { id: 3, name: "Bakary Diabate", grade: 11, role: "Software Engineer" },
+  { id: 4, name: "Ahmadou Diallo", grade: 12, role: "UI Designer" },
+  { id: 5, name: "Ayenoumou Diane", grade: 9, role: "Junior Developer" },
+  { id: 6, name: "Fallou Diongue", grade: 11, role: "Systems Analyst" },
+  { id: 7, name: "Wilkins Edouard", grade: 11, role: "Documentation Lead" },
+  { id: 8, name: "Dillon Gregg", grade: 11, role: "Testing Engineer" },
+  { id: 9, name: "Makayla Joe", grade: 10, role: "UX Designer" },
+  { id: 10, name: "Ismaeel Kassim", grade: 11, role: "Backend Developer" },
+  { id: 11, name: "Awa Keita", grade: 12, role: "Project Manager" },
+  { id: 12, name: "Mohammed", grade: 11, role: "Hardware Technician" },
+  { id: 13, name: "Christian Rose", grade: 12, role: "QA Engineer" },
+  { id: 14, name: "Youssouf Toure", grade: 11, role: "DevOps Specialist" },
+  { id: 15, name: "Michael Yorke", grade: 11, role: "Frontend Developer" }
 ];
 
 const TeamPage = () => {
   return (
-    <div className="team-page">
+    <div className="team-page py-5">
       <div className="container">
-        <h1 className="text-center mb-5">Meet the Team</h1>
+        <h1 className="text-center mb-5 display-4 fw-bold">Meet The Team</h1>
         
         <div className="team-grid">
           {teamMembers.map(member => (
             <div key={member.id} className="team-card">
-              {member.image ? (
-                <img 
-                  src={member.image} 
-                  alt={member.name}
-                  className="team-member-photo"
-                />
-              ) : (
-                <div className="team-member-photo no-image">
-                  {member.name.charAt(0)}
-                </div>
-              )}
+              <div className="team-member-photo no-image">
+                {member.name.split(' ').map(n => n[0]).join('')}
+              </div>
               <h3>{member.name}</h3>
-              <span className="role">{member.role}</span>
-              <p className="description">{member.description}</p>
+              <div className="team-meta">
+                <span className="badge bg-primary me-1">Grade {member.grade}</span>
+                {member.studentId && (
+                  <span className="badge bg-secondary">{member.studentId}</span>
+                )}
+              </div>
+              <p className="role">{member.role}</p>
             </div>
           ))}
         </div>
