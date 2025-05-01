@@ -6,9 +6,4 @@ app = Flask(__name__)
 def home():
     return render_template("index.html", title="Home")
 
-@app.route("/hex-current")
-def hex():
-    # TODO: get the value from React
-    
-
-
+# @app.route("/hex-current")

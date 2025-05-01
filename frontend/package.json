@@ -10,10 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "@react-three/fiber": "^9.1.2",
+    "bootstrap": "^5.3.5",
     "file-saver": "^2.0.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-router-dom": "^7.5.3",
     "three": "^0.175.0"
   },
   "devDependencies": {
