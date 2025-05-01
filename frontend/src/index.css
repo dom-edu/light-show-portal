@@ -1,3 +1,5 @@
+/* index.css - Updated Version */
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -22,17 +24,32 @@ a:hover {
   color: #535bf2;
 }
 
-body {
+/* Critical Fixes Start Here */
+html, body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  padding: 0;
+  width: 100%;
   min-height: 100vh;
+  background-color: #f8f9fa; /* Light gray by default */
 }
+
+body {
+  display: block; /* Changed from flex */
+  color: #213547; /* Default light mode text color */
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+/* Critical Fixes End Here */
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  margin-top: 0;
 }
 
 button {
@@ -65,4 +82,20 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* New Global Utility Classes */
+.container-wide {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
