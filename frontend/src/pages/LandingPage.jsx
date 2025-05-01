@@ -9,16 +9,18 @@ const LandingPage = () => {
         <div className="container">
           <div className="row align-items-center">
             <div className="col-md-6">
-              <h1>Control Your Hardware Remotely</h1>
+              <h1>Welcome to Our Project</h1>
               <p className="lead">
                 A student project enabling interactive control of hardware devices through a web interface.
               </p>
             </div>
             <div className="col-md-6">
-              <div className="hardware-image-placeholder">
-                {/* Replace with your hardware image */}
-                <div className="placeholder-box">Hardware Image</div>
-              </div>
+            <div className="hardware-image-placeholder">
+                <img 
+                    src="images/temporaryCube.jpg" 
+                    alt="Hardware Control Interface"
+                />
+            </div>
             </div>
           </div>
         </div>
@@ -37,7 +39,7 @@ const LandingPage = () => {
             <div className="col-md-4 feature-card">
               <div className="feature-icon mb-3">📊</div>
               <h3>Visual Feedback</h3>
-              <p>See the results of your actions with live data visualization.</p>
+              <p>See the results of your actions.</p>
             </div>
             <div className="col-md-4 feature-card">
               <div className="feature-icon mb-3">🔒</div>
@@ -45,17 +47,6 @@ const LandingPage = () => {
               <p>Protected connection ensuring only authorized users can control the hardware.</p>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="cta-section py-5 bg-light">
-        <div className="container text-center">
-          <h2>Ready to Control Your Hardware?</h2>
-          <p className="lead mb-4">Sign up now to get access to the hardware control panel.</p>
-          <button className="btn btn-primary btn-lg">
-            Start Controlling
-          </button>
         </div>
       </section>
     </div>
