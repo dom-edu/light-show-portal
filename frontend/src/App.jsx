@@ -1,13 +1,21 @@
 import './App.css'
-import HexExporter from './components/HexConverter'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HexExporter from './pages/HexConverter'
+import Navbar from './components/NabBar'
+import LandingPage from './pages/LandingPage';
+import TeamPage from './pages/TeamPage';
 
 function App() {
-
   return (
     <>
-      <HexExporter />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/light-show" element={<HexExporter />} />
+        <Route path="/team" element={<TeamPage />} />
+      </Routes>
     </>
-  )
+  );
 }
 
 export default App

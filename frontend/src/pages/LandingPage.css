@@ -1,0 +1,63 @@
+.landing-page {
+    overflow-x: hidden;
+  }
+  
+  .hero-section {
+    padding: 5rem 0;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  }
+  
+  .hardware-image-placeholder {
+    width: 100%;
+    height: 300px; /* Fixed height for consistency */
+    border-radius: 8px;
+    overflow: hidden; /* Ensures image stays within bounds */
+    position: relative;
+    background-color: #f0f2f5; /* Light gray fallback */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .hardware-image-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Preserves aspect ratio */
+    padding: 20px; /* Breathing room around image */
+  }
+  
+  /* For full-bleed images use this instead: */
+  /* .hardware-image-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  } */
+  
+  .placeholder-box {
+    color: #999;
+    font-style: italic;
+  }
+  
+  .feature-card {
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .feature-icon {
+    font-size: 2.5rem;
+  }
+  
+  .cta-section {
+    margin-top: 3rem;
+  }
+  
+  @media (max-width: 768px) {
+    .hero-section {
+      text-align: center;
+      padding: 3rem 0;
+    }
+    
+    .hardware-image-placeholder {
+      margin-top: 2rem;
+    }
+  }
