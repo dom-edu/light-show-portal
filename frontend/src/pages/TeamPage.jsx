@@ -1,7 +1,7 @@
 import './TeamPage.css';
 
 const teamMembers = [
-  { id: 1, name: "Justin Cadiz", grade: 12, role: "Team Lead", studentId: "IND-272667" },
+  { id: 1, name: "Justin Cadiz", grade: 12, role: "Team Lead" },
   { id: 2, name: "Moussa Cisse", grade: 11, role: "Hardware Specialist" },
   { id: 3, name: "Bakary Diabate", grade: 11, role: "Software Engineer" },
   { id: 4, name: "Ahmadou Diallo", grade: 12, role: "UI Designer" },
