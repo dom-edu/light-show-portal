@@ -1,10 +1,10 @@
-from flask import Flask, jsonify, render_template, response, request
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template("index.html", title="Home")
+    return "sdfds"
 
 @app.route("/api/send-hex", methods=["POST"])
 def send_hex():
