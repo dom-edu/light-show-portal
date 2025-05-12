@@ -4,10 +4,10 @@ from flask_cors import CORS
 app = Flask(__name__)
 
 def dynamic_origin(origin):
-    # Accept only GitHub Codespaces subdomains
-    if origin and origin.endswith(".github.dev"):
-        return True
-    return False
+    # Return the origin string if valid, None otherwise
+    if origin and (origin.endswith(".github.dev") or origin.endswith(".app.github.dev")):
+        return origin
+    return None
 
 CORS(app, origins=dynamic_origin, supports_credentials=True)
 

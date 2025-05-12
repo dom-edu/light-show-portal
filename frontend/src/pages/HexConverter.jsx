@@ -135,7 +135,23 @@ function generatePulseFrames(frame, cycles = 4) {
   }
   return result;
 }
+const sendHex = async (hex) => {
+  try {
+    const response = await fetch("/api/send-hex", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include", // Required if using cookies or sessions with CORS
+      body: JSON.stringify({ hex })
+    });
 
+    const result = await response.json();
+    console.log(result);
+  } catch (err) {
+    console.error("Error sending hex:", err);
+  }
+};
 function VoxelViewer({ frames }) {
   const [frameIdx, setFrameIdx] = useState(0);
 
@@ -156,6 +172,7 @@ function VoxelViewer({ frames }) {
       })
     )
   );
+
 
   return (
     <Canvas style={{ width: 300, height: 300 }} camera={{ position: [10, 10, 10], fov: 45 }}>
@@ -299,6 +316,7 @@ export default function HexExporter() {
                   <i className="bi bi-download me-2"></i>
                   Download .hex
                 </button>
+                <button onClick={() => sendHex(hex)}>Send it!</button>
               </div>
             </div>
           </div>
