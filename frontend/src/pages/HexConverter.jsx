@@ -135,7 +135,23 @@ function generatePulseFrames(frame, cycles = 4) {
   }
   return result;
 }
+const sendHex = async (hex) => {
+  try {
+    const response = await fetch("/api/send-hex", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include", // Required if using cookies or sessions with CORS
+      body: JSON.stringify({ hex })
+    });
 
+    const result = await response.json();
+    console.log(result);
+  } catch (err) {
+    console.error("Error sending hex:", err);
+  }
+};
 function VoxelViewer({ frames }) {
   const [frameIdx, setFrameIdx] = useState(0);
 
@@ -156,6 +172,7 @@ function VoxelViewer({ frames }) {
       })
     )
   );
+
 
   return (
     <Canvas style={{ width: 300, height: 300 }} camera={{ position: [10, 10, 10], fov: 45 }}>
@@ -231,59 +248,104 @@ export default function HexExporter() {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-bold mb-4">iCube 3D8S HEX Exporter</h1>
-
-      <div className="mb-4 space-y-2">
-        <div>
-          <label className="mr-2">Cube Size:</label>
-          <input
-            type="range"
-            min="1"
-            max="8"
-            value={size}
-            onChange={(e) => setSize(parseInt(e.target.value))}
-          />
-          <span className="ml-2">{size}</span>
-        </div>
-        <div>
-          <label className="mr-2">Sphere Radius:</label>
-          <input
-            type="range"
-            min="1"
-            max="5"
-            step="0.1"
-            value={radius}
-            onChange={(e) => setRadius(parseFloat(e.target.value))}
-          />
-          <span className="ml-2">{radius.toFixed(1)}</span>
-        </div>
+    <div className="container py-4">
+      {/* Enhanced Header */}
+      <div className="text-center mb-5 p-4 bg-white rounded-3 shadow-sm">
+        <h1 className="display-5 fw-bold text-primary">iCube 3D8S HEX Exporter</h1>
+        <p className="lead">Generate LED cube patterns and download as HEX files</p>
       </div>
 
-      <VoxelViewer frames={previewFrames} />
+      <div className="row g-4">
+        {/* Controls Column */}
+        <div className="col-lg-4">
+          <div className="card shadow-sm h-100">
+            <div className="card-body">
+              <h2 className="h5 card-title mb-4">Controls</h2>
+              
+              <div className="mb-4">
+                <label className="form-label d-flex justify-content-between">
+                  <span>Cube Size: <strong>{size}</strong></span>
+                </label>
+                <input
+                  type="range"
+                  className="form-range"
+                  min="1"
+                  max="8"
+                  value={size}
+                  onChange={(e) => setSize(parseInt(e.target.value))}
+                />
+              </div>
 
-      <div className="space-x-2 my-4">
-        <button onClick={() => handleGenerate("on")} className="bg-blue-500 text-white px-4 py-2 rounded">All On</button>
-        <button onClick={() => handleGenerate("off")} className="bg-blue-500 text-white px-4 py-2 rounded">All Off</button>
-        <button onClick={() => handleGenerate("heart")} className="bg-blue-500 text-white px-4 py-2 rounded">Heart</button>
-        <button onClick={() => handleGenerate("sphere")} className="bg-blue-500 text-white px-4 py-2 rounded">Sphere</button>
-        <button onClick={() => handleGenerate("cube")} className="bg-blue-500 text-white px-4 py-2 rounded">Cube</button>
-        <button onClick={() => handleGenerate("pyramid")} className="bg-blue-500 text-white px-4 py-2 rounded">Pyramid</button>
-        <button onClick={() => handleGenerate("wave")} className="bg-blue-500 text-white px-4 py-2 rounded">Wave</button>
-        <button onClick={() => handleGenerate("pulse")} className="bg-purple-600 text-white px-4 py-2 rounded">Pulse</button>
-        <button onClick={() => handleGenerate("random")} className="bg-blue-500 text-white px-4 py-2 rounded">Random</button>
-        <button
-          onClick={handleDownload}
-          className="bg-green-600 text-white px-4 py-2 rounded"
-          disabled={!hex}
-        >
-          Download .hex
-        </button>
+              <div className="mb-4">
+                <label className="form-label d-flex justify-content-between">
+                  <span>Sphere Radius: <strong>{radius.toFixed(1)}</strong></span>
+                </label>
+                <input
+                  type="range"
+                  className="form-range"
+                  min="1"
+                  max="5"
+                  step="0.1"
+                  value={radius}
+                  onChange={(e) => setRadius(parseFloat(e.target.value))}
+                />
+              </div>
+
+              {/* Buttons Grid */}
+              <div className="d-grid gap-2">
+                <div className="row row-cols-2 g-2">
+                  {['on', 'off', 'heart', 'sphere', 'cube', 'pyramid', 'wave', 'pulse', 'random'].map((type) => (
+                    <div className="col" key={type}>
+                      <button
+                        onClick={() => handleGenerate(type)}
+                        className={`btn w-100 ${
+                          type === 'pulse' ? 'btn-purple' : 'btn-primary'
+                        }`}
+                      >
+                        {type.charAt(0).toUpperCase() + type.slice(1)}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                
+                <button
+                  onClick={handleDownload}
+                  className="btn btn-success mt-3"
+                  disabled={!hex}
+                >
+                  <i className="bi bi-download me-2"></i>
+                  Download .hex
+                </button>
+                <button onClick={() => sendHex(hex)}>Send it!</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        <div className="col-lg-4">
+          <div className="card shadow-sm h-100">
+            <div className="card-body text-center">
+              <h2 className="h5 card-title mb-4">3D Preview</h2>
+              <div className="d-flex justify-content-center">
+                <VoxelViewer frames={previewFrames} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* HEX Output Column */}
+        <div className="col-lg-4">
+          <div className="card shadow-sm h-100">
+            <div className="card-body">
+              <h2 className="h5 card-title mb-4">HEX Output</h2>
+              <pre className="bg-light p-3 rounded-2" style={{ minHeight: '300px' }}>
+                {hex || "Click a shape or animation to generate .hex output..."}
+              </pre>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <pre className="mt-4 bg-gray-100 p-2 rounded text-sm overflow-auto max-h-96">
-        {hex || "Click a shape or animation to generate .hex output..."}
-      </pre>
     </div>
   );
 }
