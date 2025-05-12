@@ -9,7 +9,7 @@ def dynamic_origin(origin):
         return origin
     return None
 
-CORS(app, origins=dynamic_origin, supports_credentials=True)
+CORS(app, origins="*", supports_credentials=True)
 
 @app.route("/")
 def home():
@@ -17,6 +17,7 @@ def home():
 
 @app.route("/api/send-hex", methods=["POST", "OPTIONS"])
 def send_hex():
+    print("INSIDE BACKEND")
     if request.method == "OPTIONS":
         response = jsonify({"message": "Preflight Accepted"})
         response.headers.add("Access-Control-Allow-Headers", "Content-Type")
@@ -34,7 +35,7 @@ def send_hex():
         return jsonify({
             "message": "Hex data received successfully!",
             "length": len(hex_data)
-        }), 200
-
+        })
+        
     except Exception as e:
         return jsonify({"error": str(e)}), 500
