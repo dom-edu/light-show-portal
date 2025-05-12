@@ -3,8 +3,6 @@ import { saveAs } from "file-saver";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 
-
-
 function computeChecksum(byteCount, address, recordType, dataBytes) {
   const addrHigh = (address >> 8) & 0xff;
   const addrLow = address & 0xff;
@@ -41,99 +39,17 @@ function toIntelHex(frames, startAddress = 0x8000) {
   return lines.join("\n");
 }
 
-function createAllOffFrame() {
-  return Array.from({ length: 8 }, () =>
-    Array.from({ length: 8 }, () => Array(8).fill(0))
-  );
-}
-
-function createAllOnFrame() {
-  return Array.from({ length: 8 }, () =>
-    Array.from({ length: 8 }, () => Array(8).fill(1))
-  );
-}
-
-function createHeartFrame() {
-  const heart2D = [
-    "00011000",
-    "00111100",
-    "01111110",
-    "11111111",
-    "11111111",
-    "01111110",
-    "00111100",
-    "00011000"
-  ];
-  return Array.from({ length: 8 }, (_, z) =>
-    heart2D.map(row => row.split('').map(bit => parseInt(bit)))
-  );
-}
-
-function createSphereFrame(radius = 3.0, center = [3.5, 3.5, 3.5]) {
-  const [cx, cy, cz] = center;
-  return Array.from({ length: 8 }, (_, x) =>
-    Array.from({ length: 8 }, (_, y) =>
-      Array.from({ length: 8 }, (_, z) =>
-        (x - cx) ** 2 + (y - cy) ** 2 + (z - cz) ** 2 <= radius ** 2 ? 1 : 0
-      )
-    )
-  );
-}
-
-function createCubeFrame(size = 4) {
-  const offset = Math.floor((8 - size) / 2);
-  return Array.from({ length: 8 }, (_, x) =>
-    Array.from({ length: 8 }, (_, y) =>
-      Array.from({ length: 8 }, (_, z) =>
-        x >= offset && x < offset + size &&
-        y >= offset && y < offset + size &&
-        z >= offset && z < offset + size ? 1 : 0
-      )
-    )
-  );
-}
-
-function createPyramidFrame() {
-  const frame = createAllOffFrame();
-  for (let z = 0; z < 4; z++) {
-    for (let y = z; y < 8 - z; y++) {
-      for (let x = z; x < 8 - z; x++) {
-        frame[x][y][z] = 1;
-      }
-    }
-  }
-  return frame;
-}
-
-function createWaveFrame(step = 0) {
-  return Array.from({ length: 8 }, (_, x) =>
-    Array.from({ length: 8 }, (_, y) =>
-      Array.from({ length: 8 }, (_, z) => (z === (x + y + step) % 8 ? 1 : 0))
-    )
-  );
-}
-
-function generatePulseFrames(frame, cycles = 4) {
-  const result = [];
-  for (let i = 1; i <= cycles; i++) {
-    const scale = i / cycles;
-    const shrunk = frame.map(layer =>
-      layer.map(row =>
-        row.map(bit => (Math.random() < scale ? bit : 0))
+function generateDummyFrames(count = 4) {
+  const frames = [];
+  for (let f = 0; f < count; f++) {
+    const frame = Array.from({ length: 8 }, () =>
+      Array.from({ length: 8 }, () =>
+        Array.from({ length: 8 }, () => (Math.random() > 0.85 ? 1 : 0))
       )
     );
-    result.push(shrunk);
+    frames.push(frame);
   }
-  for (let i = cycles - 1; i >= 1; i--) {
-    const scale = i / cycles;
-    const shrunk = frame.map(layer =>
-      layer.map(row =>
-        row.map(bit => (Math.random() < scale ? bit : 0))
-      )
-    );
-    result.push(shrunk);
-  }
-  return result;
+  return frames;
 }
 
 function VoxelViewer({ frames }) {
@@ -212,23 +128,29 @@ export default function HexExporter() {
     setHex(hexData);
   };
 
-  function generateDummyFrames(count = 4) {
-    const frames = [];
-    for (let f = 0; f < count; f++) {
-      const frame = Array.from({ length: 8 }, () =>
-        Array.from({ length: 8 }, () =>
-          Array.from({ length: 8 }, () => (Math.random() > 0.85 ? 1 : 0))
-        )
-      );
-      frames.push(frame);
-    }
-    return frames;
-  }
-
   const handleDownload = () => {
     const blob = new Blob([hex], { type: "text/plain;charset=utf-8" });
     saveAs(blob, "led_cube_output.hex");
   };
+
+ const sendHex = async (hex) => {
+  try {
+    const response = await fetch("https://miniature-space-memory-g4p57qxj5x9hw559.github.dev/api/send-hex", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include", // Required if using cookies or sessions with CORS
+      body: JSON.stringify({ hex })
+    });
+
+    const result = await response.json();
+    console.log(result);
+  } catch (err) {
+    console.error("Error sending hex:", err);
+  }
+};
+
 
   return (
     <div className="container py-4">
@@ -244,7 +166,7 @@ export default function HexExporter() {
           <div className="card shadow-sm h-100">
             <div className="card-body">
               <h2 className="h5 card-title mb-4">Controls</h2>
-              
+
               <div className="mb-4">
                 <label className="form-label d-flex justify-content-between">
                   <span>Cube Size: <strong>{size}</strong></span>
@@ -299,12 +221,19 @@ export default function HexExporter() {
                   <i className="bi bi-download me-2"></i>
                   Download .hex
                 </button>
+
+                <button
+                  onClick={sendHex}
+                  className="btn btn-info mt-3"
+                  disabled={!hex}
+                >
+                  Send to Backend
+                </button>
               </div>
             </div>
           </div>
         </div>
 
-        
         <div className="col-lg-4">
           <div className="card shadow-sm h-100">
             <div className="card-body text-center">
