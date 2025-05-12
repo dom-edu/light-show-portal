@@ -4,11 +4,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app, resources={
     r"/api/*": {
-        "origins": [
-            "https://localhost:5175",  # Vite default
-            "https://hcz-project.netlify.app",  # Your production URL
-            "https://6000-*.github.dev"  # GitHub Codespaces
-        ],
+        "origins": "*",
         "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type"],
         "supports_credentials": True,
