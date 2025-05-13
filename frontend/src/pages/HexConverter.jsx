@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { saveAs } from "file-saver";
+import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { DarkModeContext } from '../main'; 
-
-
+import { DarkModeContext } from '../main';
 
 function computeChecksum(byteCount, address, recordType, dataBytes) {
   const addrHigh = (address >> 8) & 0xff;
@@ -135,6 +134,7 @@ function generatePulseFrames(frame, cycles = 4) {
   }
   return result;
 }
+
 const sendHex = async (hex) => {
   try {
     const response = await fetch("/api/send-hex", {
@@ -142,10 +142,9 @@ const sendHex = async (hex) => {
       headers: {
         "Content-Type": "application/json"
       },
-      credentials: "include", // Required if using cookies or sessions with CORS
+      credentials: "include",
       body: JSON.stringify({ hex })
     });
-
     const result = await response.json();
     console.log(result);
   } catch (err) {
@@ -155,26 +154,53 @@ const sendHex = async (hex) => {
 
 function VoxelViewer({ frames }) {
   const { darkMode } = useContext(DarkModeContext);
-  
+  const [frameIdx, setFrameIdx] = useState(0);
+
+  useEffect(() => {
+    if (!frames || frames.length === 0) return;
+    const interval = setInterval(() => {
+      setFrameIdx((prev) => (prev + 1) % frames.length);
+    }, 300);
+    return () => clearInterval(interval);
+  }, [frames]);
+
+  const lit = [];
+  const frame = frames[frameIdx];
+  frame.forEach((layer, x) =>
+    layer.forEach((row, y) =>
+      row.forEach((v, z) => {
+        if (v) lit.push([x, y, z]);
+      })
+    )
+  );
+
   return (
-    <Canvas style={{ 
-      background: darkMode ? '#1a1a1a' : '#f8f9fa',
-      transition: 'background 0.3s ease'
-    }}>
-  <ambientLight intensity={darkMode ? 0.8 : 1.0} />
-  <pointLight 
-    position={[15, 15, 15]} 
-    intensity={darkMode ? 1.5 : 1.2}
-    color={darkMode ? '#ffffff' : '#f8f8f8'}
-  />
+    <Canvas 
+      style={{ 
+        width: 300, 
+        height: 300,
+        background: darkMode ? '#1a1a1a' : '#f8f9fa'
+      }} 
+      camera={{ position: [10, 10, 10], fov: 45 }}
+    >
       <ambientLight intensity={darkMode ? 0.6 : 0.8} />
-      <pointLight position={[15, 15, 15]} intensity={darkMode ? 1.3 : 1} />
-      {/* Rest of your existing mesh code */}
+      <pointLight 
+        position={[15, 15, 15]} 
+        intensity={darkMode ? 1.3 : 1}
+        color={darkMode ? '#ffffff' : '#f8f8f8'}
+      />
+      {lit.map(([x, y, z], i) => (
+        <mesh key={i} position={[x - 3.5, y - 3.5, z - 3.5]}>
+          <boxGeometry args={[0.8, 0.8, 0.8]} />
+          <meshStandardMaterial color="red" />
+        </mesh>
+      ))}
     </Canvas>
   );
 }
 
 export default function HexExporter() {
+  const { darkMode } = useContext(DarkModeContext);
   const [hex, setHex] = useState("");
   const [size, setSize] = useState(4);
   const [radius, setRadius] = useState(3.0);
@@ -183,36 +209,18 @@ export default function HexExporter() {
   const handleGenerate = (type) => {
     let frames = [];
     switch (type) {
-      case "on":
-        frames = [createAllOnFrame()];
-        break;
-      case "off":
-        frames = [createAllOffFrame()];
-        break;
-      case "heart":
-        frames = [createHeartFrame()];
-        break;
-      case "sphere":
-        frames = [createSphereFrame(radius)];
-        break;
-      case "cube":
-        frames = [createCubeFrame(size)];
-        break;
-      case "pyramid":
-        frames = [createPyramidFrame()];
-        break;
-      case "wave":
-        frames = Array.from({ length: 8 }, (_, i) => createWaveFrame(i));
-        break;
-      case "pulse":
-        frames = generatePulseFrames(createSphereFrame(radius));
-        break;
-      default:
-        frames = generateDummyFrames();
+      case "on": frames = [createAllOnFrame()]; break;
+      case "off": frames = [createAllOffFrame()]; break;
+      case "heart": frames = [createHeartFrame()]; break;
+      case "sphere": frames = [createSphereFrame(radius)]; break;
+      case "cube": frames = [createCubeFrame(size)]; break;
+      case "pyramid": frames = [createPyramidFrame()]; break;
+      case "wave": frames = Array.from({ length: 8 }, (_, i) => createWaveFrame(i)); break;
+      case "pulse": frames = generatePulseFrames(createSphereFrame(radius)); break;
+      default: frames = generateDummyFrames();
     }
     setPreviewFrames(frames);
-    const hexData = toIntelHex(frames);
-    setHex(hexData);
+    setHex(toIntelHex(frames));
   };
 
   function generateDummyFrames(count = 4) {
@@ -234,15 +242,15 @@ export default function HexExporter() {
   };
 
   return (
-    <div className="container py-4">
-      {/* Enhanced Header */}
-      <div className={`text-center mb-5 p-4 rounded-3 shadow-sm ${darkMode ? 'bg-dark' : 'bg-white'}`}>
-        <h1 className="display-5 fw-bold text-primary">iCube 3D8S HEX Exporter</h1>
+    <div className={`container py-4 ${darkMode ? 'dark-mode' : ''}`}>
+      <div className={`text-center mb-5 p-4 rounded-3 shadow-sm ${darkMode ? 'bg-dark text-white' : 'bg-white'}`}>
+        <h1 className={`display-5 fw-bold ${darkMode ? 'text-light' : 'text-primary'}`}>
+          iCube 3D8S HEX Exporter
+        </h1>
         <p className="lead">Generate LED cube patterns and download as HEX files</p>
       </div>
 
       <div className="row g-4">
-        {/* Controls Column */}
         <div className="col-lg-4">
           <div className={`card shadow-sm h-100 ${darkMode ? 'bg-secondary text-white' : ''}`}>
             <div className="card-body">
@@ -254,7 +262,7 @@ export default function HexExporter() {
                 </label>
                 <input
                   type="range"
-                  className="form-range"
+                  className={`form-range ${darkMode ? 'dark-slider' : ''}`}
                   min="1"
                   max="8"
                   value={size}
@@ -268,7 +276,7 @@ export default function HexExporter() {
                 </label>
                 <input
                   type="range"
-                  className="form-range"
+                  className={`form-range ${darkMode ? 'dark-slider' : ''}`}
                   min="1"
                   max="5"
                   step="0.1"
@@ -277,7 +285,6 @@ export default function HexExporter() {
                 />
               </div>
 
-              {/* Buttons Grid */}
               <div className="d-grid gap-2">
                 <div className="row row-cols-2 g-2">
                   {['on', 'off', 'heart', 'sphere', 'cube', 'pyramid', 'wave', 'pulse', 'random'].map((type) => (
@@ -285,7 +292,9 @@ export default function HexExporter() {
                       <button
                         onClick={() => handleGenerate(type)}
                         className={`btn w-100 ${
-                          type === 'pulse' ? 'btn-purple' : 'btn-primary'
+                          type === 'pulse' 
+                            ? darkMode ? 'btn-dark-purple' : 'btn-purple' 
+                            : darkMode ? 'btn-dark-primary' : 'btn-primary'
                         }`}
                       >
                         {type.charAt(0).toUpperCase() + type.slice(1)}
@@ -296,21 +305,25 @@ export default function HexExporter() {
                 
                 <button
                   onClick={handleDownload}
-                  className="btn btn-success mt-3"
+                  className={`btn ${darkMode ? 'btn-info' : 'btn-success'} mt-3`}
                   disabled={!hex}
                 >
                   <i className="bi bi-download me-2"></i>
                   Download .hex
                 </button>
-                <button onClick={() => sendHex(hex)}>Send it!</button>
+                <button 
+                  onClick={() => sendHex(hex)}
+                  className={`btn ${darkMode ? 'btn-dark' : 'btn-primary'}`}
+                >
+                  Send it!
+                </button>
               </div>
             </div>
           </div>
         </div>
-
         
         <div className="col-lg-4">
-          <div className="card shadow-sm h-100">
+          <div className={`card shadow-sm h-100 ${darkMode ? 'bg-secondary text-white' : ''}`}>
             <div className="card-body text-center">
               <h2 className="h5 card-title mb-4">3D Preview</h2>
               <div className="d-flex justify-content-center">
@@ -320,9 +333,8 @@ export default function HexExporter() {
           </div>
         </div>
 
-        {/* HEX Output Column */}
         <div className="col-lg-4">
-          <div className="card shadow-sm h-100">
+          <div className={`card shadow-sm h-100 ${darkMode ? 'bg-secondary text-white' : ''}`}>
             <div className="card-body">
               <h2 className="h5 card-title mb-4">HEX Output</h2>
               <pre className={`p-3 rounded-2 ${darkMode ? 'bg-dark text-light' : 'bg-light'}`}>
