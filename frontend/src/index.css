@@ -99,3 +99,32 @@ button:focus-visible {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* Dark mode specific stylings */
+.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+.dark-mode .navbar {
+  background-color: #1a1a1a !important;
+  border-bottom: 1px solid #333;
+}
+
+.dark-mode .card {
+  background-color: #1e1e1e;
+  border-color: #333;
+}
+
+.dark-mode .bg-light {
+  background-color: #1e1e1e !important;
+}
+
+.dark-mode .text-dark {
+  color: #e0e0e0 !important;
+}
+
+/* Add smooth transitions */
+body, .navbar, .card {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

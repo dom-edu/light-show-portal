@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { saveAs } from "file-saver";
-import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
+import { DarkModeContext } from '../main'; 
 
 
 
@@ -152,38 +152,24 @@ const sendHex = async (hex) => {
     console.error("Error sending hex:", err);
   }
 };
+
 function VoxelViewer({ frames }) {
-  const [frameIdx, setFrameIdx] = useState(0);
-
-  useEffect(() => {
-    if (!frames || frames.length === 0) return;
-    const interval = setInterval(() => {
-      setFrameIdx((prev) => (prev + 1) % frames.length);
-    }, 300);
-    return () => clearInterval(interval);
-  }, [frames]);
-
-  const lit = [];
-  const frame = frames[frameIdx];
-  frame.forEach((layer, x) =>
-    layer.forEach((row, y) =>
-      row.forEach((v, z) => {
-        if (v) lit.push([x, y, z]);
-      })
-    )
-  );
-
-
+  const { darkMode } = useContext(DarkModeContext);
+  
   return (
-    <Canvas style={{ width: 300, height: 300 }} camera={{ position: [10, 10, 10], fov: 45 }}>
-      <ambientLight intensity={0.8} />
-      <pointLight position={[15, 15, 15]} />
-      {lit.map(([x, y, z], i) => (
-        <mesh key={i} position={[x - 3.5, y - 3.5, z - 3.5]}>
-          <boxGeometry args={[0.8, 0.8, 0.8]} />
-          <meshStandardMaterial color="red" />
-        </mesh>
-      ))}
+    <Canvas style={{ 
+      background: darkMode ? '#1a1a1a' : '#f8f9fa',
+      transition: 'background 0.3s ease'
+    }}>
+  <ambientLight intensity={darkMode ? 0.8 : 1.0} />
+  <pointLight 
+    position={[15, 15, 15]} 
+    intensity={darkMode ? 1.5 : 1.2}
+    color={darkMode ? '#ffffff' : '#f8f8f8'}
+  />
+      <ambientLight intensity={darkMode ? 0.6 : 0.8} />
+      <pointLight position={[15, 15, 15]} intensity={darkMode ? 1.3 : 1} />
+      {/* Rest of your existing mesh code */}
     </Canvas>
   );
 }
@@ -250,7 +236,7 @@ export default function HexExporter() {
   return (
     <div className="container py-4">
       {/* Enhanced Header */}
-      <div className="text-center mb-5 p-4 bg-white rounded-3 shadow-sm">
+      <div className={`text-center mb-5 p-4 rounded-3 shadow-sm ${darkMode ? 'bg-dark' : 'bg-white'}`}>
         <h1 className="display-5 fw-bold text-primary">iCube 3D8S HEX Exporter</h1>
         <p className="lead">Generate LED cube patterns and download as HEX files</p>
       </div>
@@ -258,7 +244,7 @@ export default function HexExporter() {
       <div className="row g-4">
         {/* Controls Column */}
         <div className="col-lg-4">
-          <div className="card shadow-sm h-100">
+          <div className={`card shadow-sm h-100 ${darkMode ? 'bg-secondary text-white' : ''}`}>
             <div className="card-body">
               <h2 className="h5 card-title mb-4">Controls</h2>
               
@@ -339,7 +325,7 @@ export default function HexExporter() {
           <div className="card shadow-sm h-100">
             <div className="card-body">
               <h2 className="h5 card-title mb-4">HEX Output</h2>
-              <pre className="bg-light p-3 rounded-2" style={{ minHeight: '300px' }}>
+              <pre className={`p-3 rounded-2 ${darkMode ? 'bg-dark text-light' : 'bg-light'}`}>
                 {hex || "Click a shape or animation to generate .hex output..."}
               </pre>
             </div>

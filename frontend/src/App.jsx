@@ -1,7 +1,7 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HexExporter from './pages/HexConverter'
-import Navbar from './components/NabBar'
+import Navbar from './components/NavBar'
 import LandingPage from './pages/LandingPage';
 import TeamPage from './pages/TeamPage';
 
