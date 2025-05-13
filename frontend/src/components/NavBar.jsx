@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
-
+import { useContext } from 'react'; // Add this import at the top
+import { DarkModeContext } from '../main'; 
 
 export default function Navbar() {
+  
+  const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
+
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
@@ -26,7 +30,7 @@ export default function Navbar() {
             <li className="nav-item">
               <Link className="nav-link" to="/team">Meet The Team</Link>
             </li>
-            <button id="d-button">dark mode</button>
+            <button id="d-button" onClick={toggleDarkMode}>dark mode</button>
           </ul>
         </div>
       </div>
