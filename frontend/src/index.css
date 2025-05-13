@@ -128,3 +128,22 @@ button:focus-visible {
 body, .navbar, .card {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+body.dark-mode {
+  background-color: #121212 !important;
+}
+
+/* Force the root element to inherit the dark background */
+#root {
+  background-color: inherit !important;
+}
+
+/* Make sure all sections and divs inherit the background */
+body.dark-mode div,
+body.dark-mode section {
+  background-color: inherit !important;
+}
+
+body.dark-mode h1 {
+  color: #ffffff !important;
+}
