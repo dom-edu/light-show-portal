@@ -11,7 +11,7 @@ const LandingPage = () => {
             <div className="col-md-6">
               <h1>Welcome to Our Project</h1>
               <p className="lead">
-                A student project enabling interactive control of hardware devices through a web interface.
+                A student project enabling interactive control of a hardware device through a web interface.
               </p>
             </div>
             <div className="col-md-6">

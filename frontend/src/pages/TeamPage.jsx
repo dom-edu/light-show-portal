@@ -15,8 +15,28 @@ const teamMembers = [
   { id: 12, name: "Mohammed", grade: 11, role: "Hardware Technician" },
   { id: 13, name: "Christian Rose", grade: 12, role: "QA Engineer" },
   { id: 14, name: "Youssouf Toure", grade: 11, role: "DevOps Specialist" },
-  { id: 15, name: "Michael Yorke", grade: 11, role: "Frontend Developer" }
+  { id: 15, name: "Michael Yorke", grade: 11, role: "Frontend Developer" },
+  { id: 16, name: "Awal Abass", grade: 11, role: "Member" },
+  { id: 17, name: "Shuaeib Abass", grade: 9, role: "Member" },
+  { id: 18, name: "Jeffrey Agyeman", grade: 12, role: "Member" },
+  { id: 19, name: "Yasnine Belem", grade: 12, role: "Member" },
+  { id: 20, name: "Bintou Berthe", grade: 10, role: "Member" },
+  { id: 21, name: "Djene Gisse", grade: 10, role: "Member" },
+  { id: 22, name: "Hadiatou Diallo", grade: 11, role: "Member" },
+  { id: 23, name: "Kadija Diallo", grade: 11, role: "Member" },
+  { id: 24, name: "Taye Elleby", grade: 9, role: "Member" },
+  { id: 25, name: "Abena Ennin", grade: 11, role: "Member" },
+  { id: 26, name: "Justin Gregoire", grade: 10, role: "Member" },
+  { id: 27, name: "Amadou Konate", grade: 9, role: "Member" },
+  { id: 28, name: "Amara Kone", grade: 11, role: "Member" },
+  { id: 29, name: "Kellyson Oliva", grade: 9, role: "Member" },
+  { id: 30, name: "Nehemiah Robinson", grade: 11, role: "Member" },
+  { id: 31, name: "Fanta SANGARE", grade: 12, role: "Member" },
+  { id: 32, name: "Aaliyah Santiago", grade: 9, role: "Member" },
+  { id: 33, name: "Sidy Seck", grade: 12, role: "Member" },
+  { id: 34, name: "Kamran Stewart", grade: 11, role: "Member" }
 ];
+
 
 const TeamPage = () => {
   return (
