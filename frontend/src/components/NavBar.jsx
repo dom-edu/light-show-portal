@@ -28,7 +28,7 @@ export default function Navbar() {
               <Link className="nav-link" to="/arcade">Arcade</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/team">Meet The Team</Link>
+              <Link className="nav-link" to="/team">Meet Our Team</Link>
             </li>
             <button id="d-button" onClick={toggleDarkMode}>🌒</button>
           </ul>
