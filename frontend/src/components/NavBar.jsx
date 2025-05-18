@@ -30,7 +30,7 @@ export default function Navbar() {
             <li className="nav-item">
               <Link className="nav-link" to="/team">Meet Our Team</Link>
             </li>
-            <button id="d-button" onClick={toggleDarkMode}>🌒</button>
+            <button id="d-button" onClick={toggleDarkMode} aria-label="Toggle dark mode">🌒</button>
           </ul>
         </div>
       </div>
