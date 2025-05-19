@@ -10,7 +10,7 @@ export default function Navbar() {
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
-          <img className="logo" src="/images/hcz-logo.png" alt="HCZ Logo" style={{ width: 185, height: 80 }} />
+          <img className="logo" src="/images/hcz-logo.png" alt="HCZ Logo" style={{ width: "auto", height: 50 }} />
         </Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,9 +28,9 @@ export default function Navbar() {
               <Link className="nav-link" to="/arcade">Arcade</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/team">Meet The Team</Link>
+              <Link className="nav-link" to="/team">Meet Our Team</Link>
             </li>
-            <button id="d-button" onClick={toggleDarkMode}>dark mode</button>
+            <button id="d-button" onClick={toggleDarkMode} aria-label="Toggle dark mode">🌒</button>
           </ul>
         </div>
       </div>
