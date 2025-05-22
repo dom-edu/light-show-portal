@@ -1,50 +1,60 @@
-import React from "react";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const games = [
+  {
+    title: "Pacman",
+    path: "/pacman", // Internal route
+    gameImage: "/images/pac.png",
+    isInternal: true
+  },
   {
     title: "Memory Game v1.1",
     url: "https://scratch.mit.edu/projects/1113114501/fullscreen",
     gameImage: "/images/memory_placeholder.png",
+    isInternal: false
   },
   {
     title: "Red Circle Illusion",
     url: "https://scratch.mit.edu/projects/1116795309/fullscreen/",
     gameImage: "/images/Circle Illusion_placeholder_game.png",
+    isInternal: false
   },
   {
     title: "Year of the Snake",
     url: "https://scratch.mit.edu/projects/1118851459/fullscreen/",
     gameImage: "/images/pixel-art/art3.png",
+    isInternal: false
   },
   {
     title: "Maze Runner",
     url: "https://scratch.mit.edu/projects/123456789/fullscreen/",
     gameImage: "/images/pixel-art/art1.png",
+    isInternal: false
   },
   {
     title: "Space Blaster",
     url: "https://scratch.mit.edu/projects/987654321/fullscreen/",
     gameImage: "/images/pixel-art/art2.png",
+    isInternal: false
   },
   {
     title: "Color Match",
     url: "https://scratch.mit.edu/projects/192837465/fullscreen/",
     gameImage: "/images/pixel-art/art2.png",
+    isInternal: false
   },
   {
     title: "Reflex Challenge",
     url: "https://scratch.mit.edu/projects/564738291/fullscreen/",
     gameImage: "/images/pixel-art/art3.png",
+    isInternal: false
   },
   {
     title: "Catch the Dot",
     url: "https://scratch.mit.edu/projects/847362514/fullscreen/",
     gameImage: "/images/pixel-art/art3.png",
-  },
-  {
-    title: "Puzzle Time",
-    url: "https://scratch.mit.edu/projects/019283746/fullscreen/",
-    gameImage: "/images/pixel-art/art4.png",
+    isInternal: false
   },
 ];
 
@@ -64,14 +74,24 @@ const Arcade = () => {
               <div className="card-body text-center">
                 <h5 className="card-title fw-bold text-primary">{game.title}</h5>
                 <p className="card-text">Experience the excitement of {game.title}</p>
-                <a
-                  href={game.url}
-                  className="btn btn-primary text-white"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Play Now
-                </a>
+                
+                {game.isInternal ? (
+                  <Link 
+                    to={game.path}
+                    className="btn btn-primary text-white text-decoration-none"
+                  >
+                    Play Now
+                  </Link>
+                ) : (
+                  <a
+                    href={game.url}
+                    className="btn btn-primary text-white text-decoration-none"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Play Now
+                  </a>
+                )}
               </div>
             </div>
           </div>
