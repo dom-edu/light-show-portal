@@ -17,7 +17,7 @@ const LandingPage = () => {
             <div className="col-md-6">
             <div className="hardware-image-placeholder">
                 <img 
-                    src="images/temporaryCube.jpg" 
+                    src="images/cube.jpg" 
                     alt="Hardware Control Interface"
                 />
             </div>
