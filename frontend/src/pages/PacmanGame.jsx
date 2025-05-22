@@ -6,29 +6,27 @@ const PacmanGame = () => {
   const [direction, setDirection] = useState('right');
   const [score, setScore] = useState(0);
   const [gameActive, setGameActive] = useState(true);
+  const [gameWon, setGameWon] = useState(false);
   const [maze, setMaze] = useState([]);
   const [ghosts, setGhosts] = useState([
     { row: 3, col: 3, color: 'red', direction: 'up' },
     { row: 3, col: 4, color: 'pink', direction: 'left' }
   ]);
-  const requestRef = useRef();
-  const previousTimeRef = useRef();
-  const lastGhostMoveRef = useRef(0);
-  const ghostSpeed = 500; // milliseconds between ghost moves
+  const containerRef = useRef(null);
 
-  // Initialize maze with walls and dots
+  // Initialize maze
   useEffect(() => {
     const initialMaze = Array(10).fill().map(() => Array(10).fill(0));
     
-    // Add walls
+    // Walls
     for (let i = 0; i < 10; i++) {
-      initialMaze[0][i] = 1; // top wall
-      initialMaze[9][i] = 1; // bottom wall
-      initialMaze[i][0] = 1; // left wall
-      initialMaze[i][9] = 1; // right wall
+      initialMaze[0][i] = 1;
+      initialMaze[9][i] = 1;
+      initialMaze[i][0] = 1;
+      initialMaze[i][9] = 1;
     }
     
-    // Add some inner walls
+    // Inner walls
     initialMaze[4][2] = 1;
     initialMaze[4][3] = 1;
     initialMaze[4][4] = 1;
@@ -36,55 +34,91 @@ const PacmanGame = () => {
     initialMaze[6][6] = 1;
     initialMaze[7][6] = 1;
     
-    // Add dots (2 represents a dot)
+    // Dots
     for (let i = 1; i < 9; i++) {
       for (let j = 1; j < 9; j++) {
-        if (initialMaze[i][j] === 0) {
-          initialMaze[i][j] = 2;
-        }
+        if (initialMaze[i][j] === 0) initialMaze[i][j] = 2;
       }
     }
     
     setMaze(initialMaze);
+    containerRef.current?.focus();
+    document.body.classList.add('pacman-game-active');
+    
+    return () => {
+      document.body.classList.remove('pacman-game-active');
+    };
   }, []);
 
-  // Handle keyboard input
+  // Keyboard controls
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!gameActive) return;
       
-      let newDirection = direction;
-      
-      if (e.key === "ArrowUp") newDirection = 'up';
-      else if (e.key === "ArrowDown") newDirection = 'down';
-      else if (e.key === "ArrowLeft") newDirection = 'left';
-      else if (e.key === "ArrowRight") newDirection = 'right';
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+      }
+
+      let newDir = direction;
+      if (e.key === "ArrowUp") newDir = 'up';
+      else if (e.key === "ArrowDown") newDir = 'down';
+      else if (e.key === "ArrowLeft") newDir = 'left';
+      else if (e.key === "ArrowRight") newDir = 'right';
       else return;
       
-      setDirection(newDirection);
-      movePacman(newDirection);
+      setDirection(newDir);
+      movePacman(newDir);
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [gameActive, direction, maze]);
 
-  // Game loop
+  // Ghost movement
   useEffect(() => {
     if (!gameActive) return;
+    
+    const ghostInterval = setInterval(() => {
+      setGhosts(prevGhosts => 
+        prevGhosts.map(ghost => {
+          const directions = ['up', 'down', 'left', 'right'];
+          let newRow = ghost.row;
+          let newCol = ghost.col;
+          let newDir = ghost.direction;
+          
+          if (newDir === 'up') newRow--;
+          else if (newDir === 'down') newRow++;
+          else if (newDir === 'left') newCol--;
+          else if (newDir === 'right') newCol++;
+          
+          if (maze[newRow]?.[newCol] === 1 || newRow < 0 || newRow >= 10 || newCol < 0 || newCol >= 10) {
+            const possibleDirs = directions.filter(dir => {
+              let testRow = ghost.row;
+              let testCol = ghost.col;
+              if (dir === 'up') testRow--;
+              else if (dir === 'down') testRow++;
+              else if (dir === 'left') testCol--;
+              else if (dir === 'right') testCol++;
+              return maze[testRow]?.[testCol] !== 1 && testRow >= 0 && testRow < 10 && testCol >= 0 && testCol < 10;
+            });
+            
+            if (possibleDirs.length > 0) {
+              newDir = possibleDirs[Math.floor(Math.random() * possibleDirs.length)];
+              newRow = ghost.row;
+              newCol = ghost.col;
+              if (newDir === 'up') newRow--;
+              else if (newDir === 'down') newRow++;
+              else if (newDir === 'left') newCol--;
+              else if (newDir === 'right') newCol++;
+            }
+          }
+          
+          return { ...ghost, row: newRow, col: newCol, direction: newDir };
+        })
+      );
+    }, 500);
 
-    const gameLoop = (timestamp) => {
-      // Move ghosts at regular intervals
-      if (!lastGhostMoveRef.current || timestamp - lastGhostMoveRef.current > ghostSpeed) {
-        moveGhosts();
-        lastGhostMoveRef.current = timestamp;
-      }
-      
-      requestRef.current = requestAnimationFrame(gameLoop);
-    };
-
-    requestRef.current = requestAnimationFrame(gameLoop);
-    return () => cancelAnimationFrame(requestRef.current);
+    return () => clearInterval(ghostInterval);
   }, [gameActive, maze]);
 
   const movePacman = (dir) => {
@@ -97,83 +131,30 @@ const PacmanGame = () => {
       else if (dir === 'left') newCol--;
       else if (dir === 'right') newCol++;
 
-      // Check walls and bounds
-      if (newRow < 0 || newRow >= maze.length || 
-          newCol < 0 || newCol >= maze[0].length || 
-          maze[newRow][newCol] === 1) {
+      if (maze[newRow]?.[newCol] === 1 || newRow < 0 || newRow >= 10 || newCol < 0 || newCol >= 10) {
         return prev;
       }
 
-      // Check if we're eating a dot
       if (maze[newRow][newCol] === 2) {
-        setScore(prevScore => prevScore + 10);
         const newMaze = [...maze];
         newMaze[newRow][newCol] = 0;
         setMaze(newMaze);
+        setScore(prev => prev + 10);
+
+        // WIN CONDITION CHECK
+        const pelletsRemaining = newMaze.flat().filter(cell => cell === 2).length;
+        if (pelletsRemaining === 0) {
+          setGameWon(true);
+          setGameActive(false);
+        }
       }
 
-      // Check collision with ghosts
-      for (const ghost of ghosts) {
-        if (newRow === ghost.row && newCol === ghost.col) {
-          setGameActive(false);
-          return prev;
-        }
+      if (ghosts.some(g => g.row === newRow && g.col === newCol)) {
+        setGameWon(false);
+        setGameActive(false);
       }
 
       return { row: newRow, col: newCol };
-    });
-  };
-
-  const moveGhosts = () => {
-    setGhosts(prevGhosts => {
-      return prevGhosts.map(ghost => {
-        const directions = ['up', 'down', 'left', 'right'];
-        let newRow = ghost.row;
-        let newCol = ghost.col;
-        let newDirection = ghost.direction;
-        
-        // Try current direction first
-        if (newDirection === 'up') newRow--;
-        else if (newDirection === 'down') newRow++;
-        else if (newDirection === 'left') newCol--;
-        else if (newDirection === 'right') newCol++;
-        
-        // If current direction is blocked, choose a random new one
-        if (newRow < 0 || newRow >= maze.length || 
-            newCol < 0 || newCol >= maze[0].length || 
-            maze[newRow][newCol] === 1) {
-          const possibleDirections = directions.filter(dir => {
-            let testRow = ghost.row;
-            let testCol = ghost.col;
-            
-            if (dir === 'up') testRow--;
-            else if (dir === 'down') testRow++;
-            else if (dir === 'left') testCol--;
-            else if (dir === 'right') testCol++;
-            
-            return !(testRow < 0 || testRow >= maze.length || 
-                    testCol < 0 || testCol >= maze[0].length || 
-                    maze[testRow][testCol] === 1);
-          });
-          
-          if (possibleDirections.length > 0) {
-            newDirection = possibleDirections[Math.floor(Math.random() * possibleDirections.length)];
-            
-            newRow = ghost.row;
-            newCol = ghost.col;
-            if (newDirection === 'up') newRow--;
-            else if (newDirection === 'down') newRow++;
-            else if (newDirection === 'left') newCol--;
-            else if (newDirection === 'right') newCol++;
-          } else {
-            // Ghost is stuck (shouldn't happen in proper maze)
-            newRow = ghost.row;
-            newCol = ghost.col;
-          }
-        }
-        
-        return { ...ghost, row: newRow, col: newCol, direction: newDirection };
-      });
     });
   };
 
@@ -182,21 +163,24 @@ const PacmanGame = () => {
     setDirection('right');
     setScore(0);
     setGameActive(true);
+    setGameWon(false);
     setGhosts([
       { row: 3, col: 3, color: 'red', direction: 'up' },
       { row: 3, col: 4, color: 'pink', direction: 'left' }
     ]);
     
-    // Reset dots
+    // Reset all pellets
     const newMaze = [...maze];
     for (let i = 1; i < 9; i++) {
       for (let j = 1; j < 9; j++) {
-        if (newMaze[i][j] === 0 && !(i === 1 && j === 1)) {
+        if (newMaze[i][j] === 0) {
           newMaze[i][j] = 2;
         }
       }
     }
     setMaze(newMaze);
+    
+    containerRef.current?.focus();
   };
 
   const getMouthAngle = () => {
@@ -209,20 +193,21 @@ const PacmanGame = () => {
     }
   };
 
+  // Touch controls
+  const handleTouchStart = (dir) => {
+    setDirection(dir);
+    movePacman(dir);
+  };
+
   return (
-    <div className="pacman-container" tabIndex={0}>
+    <div className="pacman-container" ref={containerRef} tabIndex={0}>
       <div className="score-display">Score: {score}</div>
       
       {!gameActive && (
-        <div className="game-over-modal">
-          <h2>Game Over!</h2>
+        <div className={`game-over-modal ${gameWon ? 'win' : 'lose'}`}>
+          <h2>{gameWon ? "YOU WIN!" : "GAME OVER!"}</h2>
           <p>Final Score: {score}</p>
-          <button 
-            onClick={resetGame}
-            className="reset-button"
-          >
-            Play Again
-          </button>
+          <button onClick={resetGame}>Play Again</button>
         </div>
       )}
       
@@ -231,32 +216,33 @@ const PacmanGame = () => {
           <div className="board-row" key={rowIndex}>
             {row.map((tile, colIndex) => (
               <div 
-                key={colIndex} 
-                className={`tile ${
-                  rowIndex === position.row && colIndex === position.col 
-                    ? 'pacman' 
-                    : ''
-                } ${
-                  tile === 1 ? 'wall' : ''
-                } ${
-                  tile === 2 ? 'dot' : ''
-                }`}
-                style={{
-                  '--mouth-angle': `${getMouthAngle()}deg`
-                }}
+                key={colIndex}
+                className={`tile 
+                  ${position.row === rowIndex && position.col === colIndex ? 'pacman' : ''}
+                  ${tile === 1 ? 'wall' : ''}
+                  ${tile === 2 ? 'dot' : ''}`}
+                style={{ '--mouth-angle': `${getMouthAngle()}deg` }}
               >
-                {ghosts.map((ghost, ghostIndex) => (
-                  rowIndex === ghost.row && colIndex === ghost.col && (
-                    <div 
-                      key={ghostIndex} 
-                      className={`ghost ${ghost.color}`}
-                    />
+                {ghosts.map((ghost, i) => (
+                  ghost.row === rowIndex && ghost.col === colIndex && (
+                    <div key={i} className={`ghost ${ghost.color}`} />
                   )
                 ))}
               </div>
             ))}
           </div>
         ))}
+      </div>
+
+      <div className="touch-controls">
+        <div className="touch-row">
+          <div className="touch-button" onTouchStart={() => handleTouchStart('up')}>↑</div>
+        </div>
+        <div className="touch-row">
+          <div className="touch-button" onTouchStart={() => handleTouchStart('left')}>←</div>
+          <div className="touch-button" onTouchStart={() => handleTouchStart('down')}>↓</div>
+          <div className="touch-button" onTouchStart={() => handleTouchStart('right')}>→</div>
+        </div>
       </div>
     </div>
   );
