@@ -1,8 +1,8 @@
 :root {
   --bg-color: #111;
-  --board-border: #333;
-  --tile-bg: #000;
-  --tile-border: #222;
+  --board-border: #666;
+  --tile-bg: #333;
+  --tile-border: #555;
   --pacman-color: yellow;
   --wall-color: #1a237e;
   --dot-color: #fff;
@@ -10,6 +10,8 @@
   --ghost-pink: #ffb8ff;
   --ghost-cyan: #00ffff;
   --ghost-orange: #ffb852;
+  --win-color: #4caf50;
+  --lose-color: #f44336;
 }
 
 @media (prefers-color-scheme: light) {
@@ -23,18 +25,27 @@
   }
 }
 
+body.pacman-game-active {
+  overflow: hidden;
+  touch-action: none;
+}
+
 .pacman-container {
   display: flex;
-  justify-content: center;
-  padding: 20px;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
   background-color: var(--bg-color);
-  min-height: 100vh;
+  min-height: calc(100vh - 60px);
+  outline: none;
 }
 
 .board {
   border: 3px solid var(--board-border);
   border-radius: 5px;
   background-color: var(--tile-bg);
+  line-height: 0;
+  user-select: none;
 }
 
 .board-row {
@@ -45,14 +56,12 @@
   width: 30px;
   height: 30px;
   background: var(--tile-bg);
-  border: 1px solid var(--tile-border);
   position: relative;
 }
 
 .tile.pacman {
   background: var(--pacman-color);
   border-radius: 50%;
-  position: relative;
   z-index: 2;
 }
 
@@ -85,23 +94,26 @@
   transform: translate(-50%, -50%);
 }
 
-.tile.ghost {
-  border-radius: 50% 50% 0 0;
-  position: relative;
+.ghost {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-radius: 15px 15px 0 0;
+  top: 2px;
+  left: 2px;
   z-index: 1;
 }
 
-.tile.ghost::before {
+.ghost::before {
   content: '';
   position: absolute;
-  bottom: -5px;
-  left: 0;
+  bottom: -6px;
   width: 100%;
-  height: 10px;
+  height: 6px;
   background: inherit;
 }
 
-.tile.ghost::after {
+.ghost::after {
   content: '';
   position: absolute;
   top: 30%;
@@ -112,18 +124,62 @@
   border-radius: 50%;
 }
 
-.tile.ghost.red {
-  background: var(--ghost-red);
+.ghost.red { background: var(--ghost-red); }
+.ghost.pink { background: var(--ghost-pink); }
+.ghost.cyan { background: var(--ghost-cyan); }
+.ghost.orange { background: var(--ghost-orange); }
+
+.score-display {
+  color: var(--pacman-color);
+  font-size: 1.5rem;
+  margin-bottom: 10px;
 }
 
-.tile.ghost.pink {
-  background: var(--ghost-pink);
+.game-over-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--wall-color);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  z-index: 10;
+  border: 3px solid;
 }
 
-.tile.ghost.cyan {
-  background: var(--ghost-cyan);
+.game-over-modal.win {
+  border-color: var(--win-color);
 }
 
-.tile.ghost.orange {
-  background: var(--ghost-orange);
+.game-over-modal.lose {
+  border-color: var(--lose-color);
+}
+
+.touch-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.touch-row {
+  display: flex;
+  gap: 10px;
+}
+
+.touch-button {
+  width: 60px;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: white;
+  user-select: none;
+  touch-action: none;
 }
