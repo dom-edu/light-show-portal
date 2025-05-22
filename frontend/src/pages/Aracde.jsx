@@ -48,10 +48,10 @@ const games = [
   },
 ];
 
-const Games = () => {
+const Arcade = () => {
   return (
     <div className="container my-5">
-      <h2 className="text-center mb-4">Play Our Games</h2>
+      <h2 className="text-center mb-4">Give Our Games A Try</h2> 
       <div className="row g-4">
         {games.map((game, index) => (
           <div className="col-md-4 d-flex justify-content-center" key={index}>
@@ -81,4 +81,4 @@ const Games = () => {
   );
 };
 
-export default Games;
+export default Arcade;
