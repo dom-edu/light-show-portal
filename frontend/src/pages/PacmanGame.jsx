@@ -14,7 +14,6 @@ const PacmanGame = () => {
   ]);
   const containerRef = useRef(null);
 
-  // Initialize maze
   useEffect(() => {
     const initialMaze = Array(10).fill().map(() => Array(10).fill(0));
     

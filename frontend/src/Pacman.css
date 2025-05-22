@@ -57,6 +57,7 @@ body.pacman-game-active {
   height: 30px;
   background: var(--tile-bg);
   position: relative;
+  overflow: visible !important; /* CRITICAL FOR GHOSTS */
 }
 
 .tile.pacman {
@@ -94,6 +95,7 @@ body.pacman-game-active {
   transform: translate(-50%, -50%);
 }
 
+/* GHOST STYLES - GUARANTEED VISIBLE */
 .ghost {
   position: absolute;
   width: 26px;
@@ -102,6 +104,10 @@ body.pacman-game-active {
   top: 2px;
   left: 2px;
   z-index: 1;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  filter: drop-shadow(0 0 2px #000);
 }
 
 .ghost::before {
@@ -122,12 +128,13 @@ body.pacman-game-active {
   height: 6px;
   background: white;
   border-radius: 50%;
+  box-shadow: 0 0 2px black;
 }
 
-.ghost.red { background: var(--ghost-red); }
-.ghost.pink { background: var(--ghost-pink); }
-.ghost.cyan { background: var(--ghost-cyan); }
-.ghost.orange { background: var(--ghost-orange); }
+.ghost.red { background: #ff0000 !important; }
+.ghost.pink { background: #ff80ab !important; }
+.ghost.cyan { background: #00ffff !important; }
+.ghost.orange { background: #ffb852 !important; }
 
 .score-display {
   color: var(--pacman-color);
@@ -182,4 +189,31 @@ body.pacman-game-active {
   color: white;
   user-select: none;
   touch-action: none;
+}
+
+/* DARK MODE OVERRIDES */
+@media (prefers-color-scheme: dark) {
+  .board {
+    border: 3px solid #5c6bc0 !important;
+  }
+
+  .tile {
+    border: 1px solid #5c6bc0 !important;
+    background: #121212 !important;
+  }
+
+  .tile.pacman {
+    background: #ffeb3b !important;
+    box-shadow: 0 0 5px #ffeb3b !important;
+  }
+
+  .tile.wall {
+    background-color: #5c6bc0 !important;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.5) !important;
+  }
+
+  .tile.dot::before {
+    background: #ffffff !important;
+    box-shadow: 0 0 3px #ffffff !important;
+  }
 }
