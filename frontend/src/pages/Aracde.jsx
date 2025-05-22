@@ -4,47 +4,47 @@ const games = [
   {
     title: "Memory Game v1.1",
     url: "https://scratch.mit.edu/projects/1113114501/fullscreen",
-    gameImage: "/static/images/memory_placeholder.png",
+    gameImage: "/images/memory_placeholder.png",
   },
   {
     title: "Red Circle Illusion",
     url: "https://scratch.mit.edu/projects/1116795309/fullscreen/",
-    gameImage: "/static/images/Circle Illusion_placeholder_game.png",
+    gameImage: "/images/Circle Illusion_placeholder_game.png",
   },
   {
     title: "Year of the Snake",
     url: "https://scratch.mit.edu/projects/1118851459/fullscreen/",
-    gameImage: "/static/images/snake_placeholder.png",
+    gameImage: "/images/snake_placeholder.png",
   },
   {
     title: "Maze Runner",
     url: "https://scratch.mit.edu/projects/123456789/fullscreen/",
-    gameImage: "/static/images/maze_placeholder.png",
+    gameImage: "/images/maze_placeholder.png",
   },
   {
     title: "Space Blaster",
     url: "https://scratch.mit.edu/projects/987654321/fullscreen/",
-    gameImage: "/static/images/space_placeholder.png",
+    gameImage: "/images/space_placeholder.png",
   },
   {
     title: "Color Match",
     url: "https://scratch.mit.edu/projects/192837465/fullscreen/",
-    gameImage: "/static/images/color_placeholder.png",
+    gameImage: "/images/color_placeholder.png",
   },
   {
     title: "Reflex Challenge",
     url: "https://scratch.mit.edu/projects/564738291/fullscreen/",
-    gameImage: "/static/images/reflex_placeholder.png",
+    gameImage: "/images/reflex_placeholder.png",
   },
   {
     title: "Catch the Dot",
     url: "https://scratch.mit.edu/projects/847362514/fullscreen/",
-    gameImage: "/static/images/dot_placeholder.png",
+    gameImage: "/images/dot_placeholder.png",
   },
   {
     title: "Puzzle Time",
     url: "https://scratch.mit.edu/projects/019283746/fullscreen/",
-    gameImage: "/static/images/puzzle_placeholder.png",
+    gameImage: "/images/puzzle_placeholder.png",
   },
 ];
 
