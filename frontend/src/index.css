@@ -1,5 +1,4 @@
 /* index.css - Updated Version */
-
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -30,11 +29,10 @@ html, body {
   padding: 0;
   width: 100%;
   min-height: 100vh;
-  background-color: #f8f9fa; /* Light gray by default */
-}
+  background-color: #f8f9fa; 
 
 body {
-  display: block; /* Changed from flex */
+  display: block; 
   color: #213547; /* Default light mode text color */
 }
 
@@ -44,7 +42,6 @@ body {
   display: flex;
   flex-direction: column;
 }
-/* Critical Fixes End Here */
 
 h1 {
   font-size: 3.2em;
@@ -133,12 +130,10 @@ body.dark-mode {
   background-color: #121212 !important;
 }
 
-/* Force the root element to inherit the dark background */
 #root {
   background-color: inherit !important;
 }
 
-/* Make sure all sections and divs inherit the background */
 body.dark-mode div,
 body.dark-mode section {
   background-color: inherit !important;
@@ -148,7 +143,6 @@ body.dark-mode h1 {
   color: #ffffff !important;
 }
 
-/* Isolate Pacman game from Bootstrap */
 .pacman-root {
   all: revert; /* Reset inherited styles */
 }
