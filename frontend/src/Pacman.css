@@ -1,11 +1,40 @@
+:root {
+  --bg-color: #111;
+  --board-border: #333;
+  --tile-bg: #000;
+  --tile-border: #222;
+  --pacman-color: yellow;
+  --wall-color: #1a237e;
+  --dot-color: #fff;
+  --ghost-red: #ff0000;
+  --ghost-pink: #ffb8ff;
+  --ghost-cyan: #00ffff;
+  --ghost-orange: #ffb852;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-color: #f0f0f0;
+    --board-border: #ccc;
+    --tile-bg: #fff;
+    --tile-border: #ddd;
+    --wall-color: #5c6bc0;
+    --dot-color: #333;
+  }
+}
+
 .pacman-container {
   display: flex;
   justify-content: center;
   padding: 20px;
+  background-color: var(--bg-color);
+  min-height: 100vh;
 }
 
 .board {
-  border: 2px solid #333;
+  border: 3px solid var(--board-border);
+  border-radius: 5px;
+  background-color: var(--tile-bg);
 }
 
 .board-row {
@@ -13,13 +42,88 @@
 }
 
 .tile {
-  width: 40px;
-  height: 40px;
-  background: black;
-  border: 1px solid #222;
+  width: 30px;
+  height: 30px;
+  background: var(--tile-bg);
+  border: 1px solid var(--tile-border);
+  position: relative;
 }
 
 .tile.pacman {
-  background: yellow;
+  background: var(--pacman-color);
   border-radius: 50%;
+  position: relative;
+  z-index: 2;
+}
+
+.tile.pacman::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--tile-bg);
+  border-bottom: 8px solid var(--tile-bg);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(var(--mouth-angle, 0deg));
+}
+
+.tile.wall {
+  background-color: var(--wall-color);
+}
+
+.tile.dot::before {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--dot-color);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.tile.ghost {
+  border-radius: 50% 50% 0 0;
+  position: relative;
+  z-index: 1;
+}
+
+.tile.ghost::before {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: inherit;
+}
+
+.tile.ghost::after {
+  content: '';
+  position: absolute;
+  top: 30%;
+  left: 20%;
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+}
+
+.tile.ghost.red {
+  background: var(--ghost-red);
+}
+
+.tile.ghost.pink {
+  background: var(--ghost-pink);
+}
+
+.tile.ghost.cyan {
+  background: var(--ghost-cyan);
+}
+
+.tile.ghost.orange {
+  background: var(--ghost-orange);
 }
