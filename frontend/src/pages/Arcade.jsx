@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const games = [
   {
     title: "Pacman",
-    path: "/pacman", // Internal route
+    path: "/pacman", 
     gameImage: "/images/pac.png",
     isInternal: true
   },
