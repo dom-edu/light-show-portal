@@ -30,7 +30,7 @@ html, body {
   width: 100%;
   min-height: 100vh;
   background-color: #f8f9fa; 
-
+}
 body {
   display: block; 
   color: #213547; /* Default light mode text color */
@@ -143,10 +143,3 @@ body.dark-mode h1 {
   color: #ffffff !important;
 }
 
-.pacman-root {
-  all: revert; /* Reset inherited styles */
-}
-
-.pacman-root * {
-  all: unset; /* Nuclear option for game container only */
-}
