@@ -14,37 +14,37 @@ const games = [
   {
     title: "Year of the Snake",
     url: "https://scratch.mit.edu/projects/1118851459/fullscreen/",
-    gameImage: "/images/snake_placeholder.png",
+    gameImage: "/images/pixel-art/art3.png",
   },
   {
     title: "Maze Runner",
     url: "https://scratch.mit.edu/projects/123456789/fullscreen/",
-    gameImage: "/images/maze_placeholder.png",
+    gameImage: "/images/pixel-art/art1.png",
   },
   {
     title: "Space Blaster",
     url: "https://scratch.mit.edu/projects/987654321/fullscreen/",
-    gameImage: "/images/space_placeholder.png",
+    gameImage: "/images/pixel-art/art2.png",
   },
   {
     title: "Color Match",
     url: "https://scratch.mit.edu/projects/192837465/fullscreen/",
-    gameImage: "/images/color_placeholder.png",
+    gameImage: "/images/pixel-art/art2.png",
   },
   {
     title: "Reflex Challenge",
     url: "https://scratch.mit.edu/projects/564738291/fullscreen/",
-    gameImage: "/images/reflex_placeholder.png",
+    gameImage: "/images/pixel-art/art3.png",
   },
   {
     title: "Catch the Dot",
     url: "https://scratch.mit.edu/projects/847362514/fullscreen/",
-    gameImage: "/images/dot_placeholder.png",
+    gameImage: "/images/pixel-art/art3.png",
   },
   {
     title: "Puzzle Time",
     url: "https://scratch.mit.edu/projects/019283746/fullscreen/",
-    gameImage: "/images/puzzle_placeholder.png",
+    gameImage: "/images/pixel-art/art4.png",
   },
 ];
 
