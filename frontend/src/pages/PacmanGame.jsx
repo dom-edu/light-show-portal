@@ -210,7 +210,7 @@ const PacmanGame = () => {
           <button onClick={resetGame}>Play Again</button>
         </div>
       )}
-      
+
       <div className="board">
         {maze.map((row, rowIndex) => (
           <div className="board-row" key={rowIndex}>
