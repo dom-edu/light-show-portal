@@ -170,10 +170,10 @@ const PacmanGame = () => {
     
     // Reset all pellets
     const newMaze = [...maze];
-    for (let i = 1; i < 9; i++) {
-      for (let j = 1; j < 9; j++) {
-        if (newMaze[i][j] === 0) {
-          newMaze[i][j] = 2;
+    for (let outer = 1; outer < 9; outer++) {
+      for (let inner = 1; inner < 9; inner++) {
+        if (newMaze[outer][inner] === 0) {
+          newMaze[outer][inner] = 2;
         }
       }
     }
