@@ -4,7 +4,7 @@ import HexExporter from './pages/HexConverter'
 import Navbar from './components/NavBar'
 import LandingPage from './pages/LandingPage';
 import TeamPage from './pages/TeamPage';
-import Arcade from './pages/Aracde';
+import Arcade from './pages/Arcade';
 import PacmanGame from './pages/PacmanGame';
 
 function App() {
