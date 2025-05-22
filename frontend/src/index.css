@@ -147,3 +147,12 @@ body.dark-mode section {
 body.dark-mode h1 {
   color: #ffffff !important;
 }
+
+/* Isolate Pacman game from Bootstrap */
+.pacman-root {
+  all: revert; /* Reset inherited styles */
+}
+
+.pacman-root * {
+  all: unset; /* Nuclear option for game container only */
+}
