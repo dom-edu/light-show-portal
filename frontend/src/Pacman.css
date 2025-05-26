@@ -1,0 +1,219 @@
+:root {
+  --bg-color: #111;
+  --board-border: #666;
+  --tile-bg: #333;
+  --tile-border: #555;
+  --pacman-color: yellow;
+  --wall-color: #1a237e;
+  --dot-color: #fff;
+  --ghost-red: #ff0000;
+  --ghost-pink: #ffb8ff;
+  --ghost-cyan: #00ffff;
+  --ghost-orange: #ffb852;
+  --win-color: #4caf50;
+  --lose-color: #f44336;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-color: #f0f0f0;
+    --board-border: #ccc;
+    --tile-bg: #fff;
+    --tile-border: #ddd;
+    --wall-color: #5c6bc0;
+    --dot-color: #333;
+  }
+}
+
+body.pacman-game-active {
+  overflow: hidden;
+  touch-action: none;
+}
+
+.pacman-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  background-color: var(--bg-color);
+  min-height: calc(100vh - 60px);
+  outline: none;
+}
+
+.board {
+  border: 3px solid var(--board-border);
+  border-radius: 5px;
+  background-color: var(--tile-bg);
+  line-height: 0;
+  user-select: none;
+}
+
+.board-row {
+  display: flex;
+}
+
+.tile {
+  width: 30px;
+  height: 30px;
+  background: var(--tile-bg);
+  position: relative;
+  overflow: visible !important; /* CRITICAL FOR GHOSTS */
+}
+
+.tile.pacman {
+  background: var(--pacman-color);
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.tile.pacman::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--tile-bg);
+  border-bottom: 8px solid var(--tile-bg);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(var(--mouth-angle, 0deg));
+}
+
+.tile.wall {
+  background-color: var(--wall-color);
+}
+
+.tile.dot::before {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--dot-color);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* GHOST STYLES - GUARANTEED VISIBLE */
+.ghost {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-radius: 15px 15px 0 0;
+  top: 2px;
+  left: 2px;
+  z-index: 1;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  filter: drop-shadow(0 0 2px #000);
+}
+
+.ghost::before {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  width: 100%;
+  height: 6px;
+  background: inherit;
+}
+
+.ghost::after {
+  content: '';
+  position: absolute;
+  top: 30%;
+  left: 20%;
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 2px black;
+}
+
+.ghost.red { background: #ff0000 !important; }
+.ghost.pink { background: #ff80ab !important; }
+.ghost.cyan { background: #00ffff !important; }
+.ghost.orange { background: #ffb852 !important; }
+
+.score-display {
+  color: var(--pacman-color);
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.game-over-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--wall-color);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  z-index: 10;
+  border: 3px solid;
+}
+
+.game-over-modal.win {
+  border-color: var(--win-color);
+}
+
+.game-over-modal.lose {
+  border-color: var(--lose-color);
+}
+
+.touch-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.touch-row {
+  display: flex;
+  gap: 10px;
+}
+
+.touch-button {
+  width: 60px;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: white;
+  user-select: none;
+  touch-action: none;
+}
+
+/* DARK MODE OVERRIDES */
+@media (prefers-color-scheme: dark) {
+  .board {
+    border: 3px solid #5c6bc0 !important;
+  }
+
+  .tile {
+    border: 1px solid #5c6bc0 !important;
+    background: #121212 !important;
+  }
+
+  .tile.pacman {
+    background: #ffeb3b !important;
+    box-shadow: 0 0 5px #ffeb3b !important;
+  }
+
+  .tile.wall {
+    background-color: #5c6bc0 !important;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.5) !important;
+  }
+
+  .tile.dot::before {
+    background: #ffffff !important;
+    box-shadow: 0 0 3px #ffffff !important;
+  }
+}
