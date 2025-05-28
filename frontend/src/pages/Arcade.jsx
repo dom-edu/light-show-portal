@@ -15,8 +15,8 @@ const games = [
     isInternal: false
   },
   {
-    title: "Red Circle Illusion",
-    url: "https://scratch.mit.edu/projects/1116795309/fullscreen/",
+    title: "bootleg tetris",
+    url: "https://scratch.mit.edu/projects/1180970330/fullscreen",
     gameImage: "/images/Circle Illusion_placeholder_game.png",
     isInternal: false
   },
